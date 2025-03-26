@@ -55,6 +55,7 @@ const DoctorCard = ({ doctor, locationData, index = 0 }: DoctorCardProps) => {
                 className={`relative px-3 py-1 rounded-full text-sm font-medium flex items-center ${
                   doctor.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                 }`}
+                title={doctor.available ? "Doctor is available for appointments today" : "Doctor is not available for appointments today"}
               >
                 {doctor.available ? (
                   <>
@@ -102,6 +103,7 @@ const DoctorCard = ({ doctor, locationData, index = 0 }: DoctorCardProps) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               disabled={!doctor.available}
+              title={doctor.available ? "Book an appointment with this doctor" : "This doctor is not available for appointments today"}
             >
               Book Appointment
             </motion.button>

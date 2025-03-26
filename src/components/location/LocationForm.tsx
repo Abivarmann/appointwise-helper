@@ -86,7 +86,7 @@ const LocationForm = () => {
             
             <div className="space-y-2">
               <label htmlFor="state" className="text-sm font-medium text-foreground">
-                State
+                State/Province
               </label>
               <select
                 id="state"
@@ -97,7 +97,7 @@ const LocationForm = () => {
                 className="input-field"
                 disabled={!formData.country}
               >
-                <option value="">Select State</option>
+                <option value="">Select State/Province</option>
                 {states.map(state => (
                   <option key={state} value={state}>{state}</option>
                 ))}
@@ -106,7 +106,7 @@ const LocationForm = () => {
             
             <div className="space-y-2">
               <label htmlFor="district" className="text-sm font-medium text-foreground">
-                District
+                District/City
               </label>
               <select
                 id="district"
@@ -117,7 +117,7 @@ const LocationForm = () => {
                 className="input-field"
                 disabled={!formData.state}
               >
-                <option value="">Select District</option>
+                <option value="">Select District/City</option>
                 {districts.map(district => (
                   <option key={district} value={district}>{district}</option>
                 ))}
@@ -126,7 +126,7 @@ const LocationForm = () => {
             
             <div className="space-y-2">
               <label htmlFor="area" className="text-sm font-medium text-foreground">
-                Area
+                Area/Neighborhood
               </label>
               <select
                 id="area"
@@ -137,7 +137,7 @@ const LocationForm = () => {
                 className="input-field"
                 disabled={!formData.district}
               >
-                <option value="">Select Area</option>
+                <option value="">Select Area/Neighborhood</option>
                 {areas.map(area => (
                   <option key={area} value={area}>{area}</option>
                 ))}

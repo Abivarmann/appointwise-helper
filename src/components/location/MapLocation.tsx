@@ -22,7 +22,7 @@ const MapLocation = ({ address, coordinates, className = '' }: MapLocationProps)
   const [apiKey, setApiKey] = useState<string>(MAPBOX_TOKEN);
 
   // Default coordinates (will be used if no coordinates are provided)
-  const defaultCoordinates: [number, number] = coordinates || [78.9629, 20.5937]; // India center
+  const defaultCoordinates: [number, number] = coordinates || [0, 0]; // World center
 
   useEffect(() => {
     if (!mapContainer.current || mapLoaded) return;
@@ -35,14 +35,20 @@ const MapLocation = ({ address, coordinates, className = '' }: MapLocationProps)
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v12',
         center: defaultCoordinates,
-        zoom: 14,
-        interactive: false // Disable interactions for a static map
+        zoom: 9,
+        interactive: true // Enable interactions for a better user experience
       });
 
       // Add marker
       marker.current = new mapboxgl.Marker({ color: '#F43F5E' })
         .setLngLat(defaultCoordinates)
         .addTo(map.current);
+
+      // Add navigation controls for better user interaction
+      map.current.addControl(
+        new mapboxgl.NavigationControl(),
+        'top-right'
+      );
 
       map.current.on('load', () => {
         setMapLoaded(true);
@@ -80,7 +86,7 @@ const MapLocation = ({ address, coordinates, className = '' }: MapLocationProps)
         </div>
       )}
       {!mapLoaded && (
-        <div className="flex items-center justify-center bg-gray-100 h-40 rounded-lg">
+        <div className="flex items-center justify-center bg-gray-100 h-48 rounded-lg">
           <div className="flex flex-col items-center text-gray-500">
             <MapPin className="w-8 h-8 mb-2 animate-pulse" />
             <p>Loading map...</p>
@@ -89,7 +95,7 @@ const MapLocation = ({ address, coordinates, className = '' }: MapLocationProps)
       )}
       <div 
         ref={mapContainer} 
-        className="w-full h-40 bg-gray-100"
+        className="w-full h-48 bg-gray-100"
         style={{ display: mapLoaded ? 'block' : 'none' }}
       />
       <div className="mt-2 text-sm text-muted-foreground">

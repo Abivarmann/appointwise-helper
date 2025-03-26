@@ -16,23 +16,25 @@ const DoctorLocationMap = ({ doctor }: DoctorLocationMapProps) => {
     setShowMap(!showMap);
   };
 
-  // For demo purposes, we'll create random-ish coordinates based on the doctor's name
-  // In a real app, these would come from the database
-  const generateCoordinates = (doctorName: string): [number, number] => {
-    // Use a simple hash function to generate a predictable value from the name
+  // Generate coordinates based on doctor's name and location
+  const generateCoordinates = (doctorName: string, location: string): [number, number] => {
+    // Use a deterministic hash function based on doctor name and location
     let hash = 0;
-    for (let i = 0; i < doctorName.length; i++) {
-      hash = doctorName.charCodeAt(i) + ((hash << 5) - hash);
+    const input = doctorName + location;
+    for (let i = 0; i < input.length; i++) {
+      hash = input.charCodeAt(i) + ((hash << 5) - hash);
     }
     
-    // Generate coordinates within India (roughly)
-    const longitude = 72.0 + (hash % 10) + (Math.abs(hash) % 100) / 100;
-    const latitude = 17.0 + ((hash >> 8) % 15) + (Math.abs(hash >> 8) % 100) / 100;
+    // Generate coordinates that span globally
+    // Longitude range: -180 to 180
+    // Latitude range: -85 to 85 (not exactly -90 to 90 to avoid poles)
+    const longitude = -180 + (Math.abs(hash) % 360);
+    const latitude = -85 + (Math.abs(hash >> 8) % 170);
     
     return [longitude, latitude];
   };
 
-  const coordinates = generateCoordinates(doctor.name);
+  const coordinates = generateCoordinates(doctor.name, doctor.address);
   const address = `${doctor.clinic}, ${doctor.address}`;
 
   return (
