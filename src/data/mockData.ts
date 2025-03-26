@@ -1,319 +1,113 @@
-
-export type Doctor = {
-  id: string;
-  name: string;
-  specialty: string;
-  location: {
-    area: string;
-    district: string;
-    state: string;
-    country: string;
-  };
-  image: string;
-  rating: number;
-  reviewCount: number;
-  experience: number;
-  available: boolean;
-  nextAvailable?: string;
-  education: string;
-  fee: number;
-};
-
-export type LocationType = {
+export interface LocationType {
   area: string;
   district: string;
   state: string;
   country: string;
+}
+
+export const getAvailableLocations = () => {
+  return {
+    areas: ["Bandra", "Andheri", "Colaba", "Borivali", "Ghatkopar"],
+    districts: ["Mumbai Suburban", "Mumbai City"],
+    states: ["Maharashtra"],
+    countries: ["India"],
+  };
 };
 
-export type Specialty = {
-  id: string;
+export interface Doctor {
+  id: number;
   name: string;
-  description: string;
-  icon: string;
-};
+  specialty: string;
+  clinic: string;
+  address: string;
+  available: boolean;
+  availableDays: string[];
+  rating: number;
+  reviews: number;
+  fee: number;
+  experience: number;
+  image: string;
+  waitTime?: number; // in minutes
+}
 
-export const specialties: Specialty[] = [
-  {
-    id: "neurologist",
-    name: "Neurologist",
-    description: "Specializes in disorders of the nervous system",
-    icon: "🧠",
-  },
-  {
-    id: "cardiologist",
-    name: "Cardiologist",
-    description: "Specializes in disorders of the heart and blood vessels",
-    icon: "❤️",
-  },
-  {
-    id: "dermatologist",
-    name: "Dermatologist",
-    description: "Specializes in conditions involving the skin, hair, and nails",
-    icon: "🧴",
-  },
-  {
-    id: "orthopedist",
-    name: "Orthopedist",
-    description: "Specializes in conditions involving the musculoskeletal system",
-    icon: "🦴",
-  },
-  {
-    id: "ophthalmologist",
-    name: "Ophthalmologist",
-    description: "Specializes in eye and vision care",
-    icon: "👁️",
-  },
-  {
-    id: "pediatrician",
-    name: "Pediatrician",
-    description: "Specializes in the care of children",
-    icon: "👶",
-  },
-  {
-    id: "psychiatrist",
-    name: "Psychiatrist",
-    description: "Specializes in mental, emotional, and behavioral disorders",
-    icon: "🧠",
-  },
-  {
-    id: "gynecologist",
-    name: "Gynecologist",
-    description: "Specializes in female reproductive health",
-    icon: "👩",
-  },
-];
-
-export const doctors: Doctor[] = [
-  {
-    id: "1",
-    name: "Dr. Emma Johnson",
-    specialty: "neurologist",
-    location: {
-      area: "Downtown",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    rating: 4.9,
-    reviewCount: 124,
-    experience: 12,
-    available: true,
-    education: "Stanford University School of Medicine",
-    fee: 150,
-  },
-  {
-    id: "2",
-    name: "Dr. James Wilson",
-    specialty: "cardiologist",
-    location: {
-      area: "Westside",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-    rating: 4.7,
-    reviewCount: 98,
-    experience: 15,
-    available: true,
-    education: "Harvard Medical School",
-    fee: 180,
-  },
-  {
-    id: "3",
-    name: "Dr. Sarah Miller",
-    specialty: "dermatologist",
-    location: {
-      area: "Downtown",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/women/64.jpg",
-    rating: 4.8,
-    reviewCount: 112,
-    experience: 8,
-    available: true,
-    education: "UCLA School of Medicine",
-    fee: 130,
-  },
-  {
-    id: "4",
-    name: "Dr. Robert Chen",
-    specialty: "orthopedist",
-    location: {
-      area: "Eastside",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/men/22.jpg",
-    rating: 4.6,
-    reviewCount: 87,
-    experience: 20,
-    available: false,
-    nextAvailable: "Tomorrow",
-    education: "Johns Hopkins School of Medicine",
-    fee: 200,
-  },
-  {
-    id: "5",
-    name: "Dr. Lisa Wong",
-    specialty: "ophthalmologist",
-    location: {
-      area: "Downtown",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/women/45.jpg",
-    rating: 4.9,
-    reviewCount: 156,
-    experience: 14,
-    available: true,
-    education: "UCSF School of Medicine",
-    fee: 160,
-  },
-  {
-    id: "6",
-    name: "Dr. Michael Brown",
-    specialty: "pediatrician",
-    location: {
-      area: "Northside",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/men/52.jpg",
-    rating: 4.8,
-    reviewCount: 143,
-    experience: 10,
-    available: true,
-    education: "Mayo Clinic School of Medicine",
-    fee: 140,
-  },
-  {
-    id: "7",
-    name: "Dr. Jessica Park",
-    specialty: "psychiatrist",
-    location: {
-      area: "Westside",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/women/32.jpg",
-    rating: 4.7,
-    reviewCount: 91,
-    experience: 9,
-    available: false,
-    nextAvailable: "Thursday",
-    education: "Yale School of Medicine",
-    fee: 190,
-  },
-  {
-    id: "8",
-    name: "Dr. David Kim",
-    specialty: "gynecologist",
-    location: {
-      area: "Downtown",
-      district: "Central",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/men/64.jpg",
-    rating: 4.8,
-    reviewCount: 118,
-    experience: 16,
-    available: true,
-    education: "Columbia University College of Physicians and Surgeons",
-    fee: 170,
-  },
-  {
-    id: "9",
-    name: "Dr. Thomas Lee",
-    specialty: "neurologist",
-    location: {
-      area: "Southside",
-      district: "Eastern",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/men/77.jpg",
-    rating: 4.6,
-    reviewCount: 82,
-    experience: 11,
-    available: true,
-    education: "Duke University School of Medicine",
-    fee: 155,
-  },
-  {
-    id: "10",
-    name: "Dr. Emily Garcia",
-    specialty: "cardiologist",
-    location: {
-      area: "Downtown",
-      district: "Western",
-      state: "California",
-      country: "USA",
-    },
-    image: "https://randomuser.me/api/portraits/women/55.jpg",
-    rating: 4.9,
-    reviewCount: 134,
-    experience: 13,
-    available: false,
-    nextAvailable: "Friday",
-    education: "University of Pennsylvania School of Medicine",
-    fee: 175,
+export const getDoctors = (locationData: LocationType, specialty?: string): Doctor[] => {
+  // Create a deterministic but seemingly random set of doctors based on the location
+  const seed = `${locationData.area}-${locationData.district}-${locationData.state}-${locationData.country}`;
+  let seedValue = 0;
+  for (let i = 0; i < seed.length; i++) {
+    seedValue += seed.charCodeAt(i);
   }
-];
-
-export const findDoctorsByLocation = (location: LocationType): Doctor[] => {
-  return doctors.filter(
-    (doctor) => 
-      doctor.location.area === location.area &&
-      doctor.location.district === location.district &&
-      doctor.location.state === location.state &&
-      doctor.location.country === location.country
-  );
-};
-
-export const findDoctorsBySpecialty = (doctors: Doctor[], specialty: string): Doctor[] => {
-  return doctors.filter((doctor) => doctor.specialty === specialty);
-};
-
-export const findDoctorsByLocationAndSpecialty = (location: LocationType, specialty: string): Doctor[] => {
-  const locationDoctors = findDoctorsByLocation(location);
-  return findDoctorsBySpecialty(locationDoctors, specialty);
-};
-
-export const findNearbyDoctors = (location: LocationType, specialty: string): Doctor[] => {
-  // For this mock data, we're just finding any doctors with the same specialty but possibly different locations
-  const specialtyDoctors = doctors.filter((doctor) => 
-    doctor.specialty === specialty && 
-    (doctor.location.district === location.district || 
-    doctor.location.state === location.state)
-  );
   
-  return specialtyDoctors.filter(
-    (doctor) => 
-      doctor.location.area !== location.area ||
-      doctor.location.district !== location.district
-  );
-};
-
-export const getAvailableLocations = (): {
-  areas: string[],
-  districts: string[],
-  states: string[],
-  countries: string[]
-} => {
-  const areas = [...new Set(doctors.map(doctor => doctor.location.area))];
-  const districts = [...new Set(doctors.map(doctor => doctor.location.district))];
-  const states = [...new Set(doctors.map(doctor => doctor.location.state))];
-  const countries = [...new Set(doctors.map(doctor => doctor.location.country))];
+  const specialties = [
+    "Cardiologist",
+    "Dermatologist",
+    "Neurologist",
+    "Orthopedic",
+    "Pediatrician",
+    "Psychiatrist",
+    "Gynecologist",
+    "Ophthalmologist",
+    "General Physician"
+  ];
   
-  return { areas, districts, states, countries };
+  const clinics = [
+    "Apollo Hospital",
+    "Max Healthcare",
+    "Fortis Hospital",
+    "Medanta",
+    "AIIMS",
+    "City Hospital",
+    "LifeCare Clinic",
+    "MediCenter",
+    "Health Point",
+    "Care & Cure Clinic"
+  ];
+  
+  const generateDoctor = (id: number): Doctor => {
+    const randomValue = (seedValue + id) * 9973; // Use a prime number for better distribution
+    const specialtyIndex = randomValue % specialties.length;
+    const clinicIndex = (randomValue / 10) % clinics.length;
+    const available = (randomValue % 5) !== 0; // 80% availability
+    const rating = 3.5 + (randomValue % 20) / 10; // Rating between 3.5 and 5.5
+    const fee = 500 + (randomValue % 10) * 200; // Fee between 500 and 2300
+    const experience = 2 + (randomValue % 20); // Experience between 2 and 21 years
+    const waitTime = 5 + (randomValue % 60); // Wait time between 5 and 64 minutes
+    
+    // Generate a set of available days (at least 3 days a week)
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const shuffledDays = [...days].sort(() => 0.5 - Math.random());
+    const numDays = 3 + (randomValue % 4); // Between 3 and 6 days
+    const availableDays = shuffledDays.slice(0, numDays);
+    
+    return {
+      id,
+      name: `Dr. ${String.fromCharCode(65 + (randomValue % 26))}${String.fromCharCode(97 + ((randomValue / 100) % 26))}${String.fromCharCode(97 + ((randomValue / 10000) % 26))}${String.fromCharCode(97 + ((randomValue / 1000000) % 26))}`,
+      specialty: specialties[specialtyIndex],
+      clinic: clinics[clinicIndex],
+      address: `${locationData.area}, ${locationData.district}`,
+      available,
+      availableDays,
+      rating,
+      reviews: 10 + (randomValue % 200),
+      fee,
+      experience,
+      image: `/placeholder.svg`,
+      waitTime
+    };
+  };
+  
+  // Generate a list of doctors
+  const doctorCount = 10 + (seedValue % 15); // Between 10 and 24 doctors
+  let doctors: Doctor[] = [];
+  
+  for (let i = 1; i <= doctorCount; i++) {
+    doctors.push(generateDoctor(i));
+  }
+  
+  // Filter by specialty if provided
+  if (specialty) {
+    doctors = doctors.filter(doctor => doctor.specialty === specialty);
+  }
+  
+  return doctors;
 };
