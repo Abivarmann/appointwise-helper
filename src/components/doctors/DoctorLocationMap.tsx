@@ -31,7 +31,7 @@ const DoctorLocationMap = ({ doctor }: DoctorLocationMapProps) => {
     const longitude = -180 + (Math.abs(hash) % 360);
     const latitude = -85 + (Math.abs(hash >> 8) % 170);
     
-    return [longitude, latitude];
+    return [latitude, longitude];
   };
 
   const coordinates = generateCoordinates(doctor.name, doctor.address);
