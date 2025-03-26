@@ -8,13 +8,20 @@ import DoctorCard from './DoctorCard';
 
 interface DoctorsListProps {
   locationData: LocationType;
+  specialty?: string;
 }
 
-const DoctorsList = ({ locationData }: DoctorsListProps) => {
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string>('');
+const DoctorsList = ({ locationData, specialty }: DoctorsListProps) => {
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string>(specialty || '');
   const [doctorsList, setDoctorsList] = useState<Doctor[]>([]);
   const [nearbyDoctors, setNearbyDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    if (specialty) {
+      setSelectedSpecialty(specialty);
+    }
+  }, [specialty]);
   
   useEffect(() => {
     // Simulate loading
@@ -112,11 +119,12 @@ const DoctorsList = ({ locationData }: DoctorsListProps) => {
               initial="hidden"
               animate="visible"
             >
-              {doctorsList.map((doctor) => (
+              {doctorsList.map((doctor, index) => (
                 <DoctorCard 
                   key={doctor.id} 
                   doctor={doctor} 
-                  locationData={locationData} 
+                  locationData={locationData}
+                  index={index}
                 />
               ))}
             </motion.div>
@@ -137,11 +145,12 @@ const DoctorsList = ({ locationData }: DoctorsListProps) => {
                         We found nearby doctors that might help:
                       </h4>
                       <div className="grid grid-cols-1 gap-6 mt-4">
-                        {nearbyDoctors.map((doctor) => (
+                        {nearbyDoctors.map((doctor, index) => (
                           <DoctorCard
                             key={doctor.id}
                             doctor={doctor}
                             locationData={locationData}
+                            index={index}
                           />
                         ))}
                       </div>

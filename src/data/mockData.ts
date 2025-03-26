@@ -30,6 +30,64 @@ export interface Doctor {
   waitTime?: number; // in minutes
 }
 
+// Specialty data with icons and descriptions
+export const specialties = [
+  {
+    id: "Cardiologist",
+    name: "Cardiologist",
+    icon: "❤️",
+    description: "Heart specialists treating cardiovascular conditions"
+  },
+  {
+    id: "Dermatologist",
+    name: "Dermatologist",
+    icon: "🧬",
+    description: "Skin, hair and nail specialists"
+  },
+  {
+    id: "Neurologist",
+    name: "Neurologist",
+    icon: "🧠",
+    description: "Brain and nervous system specialists"
+  },
+  {
+    id: "Orthopedic",
+    name: "Orthopedic",
+    icon: "🦴",
+    description: "Bone and joint specialists"
+  },
+  {
+    id: "Pediatrician",
+    name: "Pediatrician",
+    icon: "👶",
+    description: "Child health specialists"
+  },
+  {
+    id: "Psychiatrist",
+    name: "Psychiatrist",
+    icon: "🧘",
+    description: "Mental health specialists"
+  },
+  {
+    id: "Gynecologist",
+    name: "Gynecologist",
+    icon: "👩",
+    description: "Women's health specialists"
+  },
+  {
+    id: "Ophthalmologist",
+    name: "Ophthalmologist",
+    icon: "👁️",
+    description: "Eye specialists"
+  },
+  {
+    id: "General Physician",
+    name: "General Physician",
+    icon: "🩺",
+    description: "Primary healthcare providers"
+  }
+];
+
 export const getDoctors = (locationData: LocationType, specialty?: string): Doctor[] => {
   // Create a deterministic but seemingly random set of doctors based on the location
   const seed = `${locationData.area}-${locationData.district}-${locationData.state}-${locationData.country}`;
@@ -37,18 +95,6 @@ export const getDoctors = (locationData: LocationType, specialty?: string): Doct
   for (let i = 0; i < seed.length; i++) {
     seedValue += seed.charCodeAt(i);
   }
-  
-  const specialties = [
-    "Cardiologist",
-    "Dermatologist",
-    "Neurologist",
-    "Orthopedic",
-    "Pediatrician",
-    "Psychiatrist",
-    "Gynecologist",
-    "Ophthalmologist",
-    "General Physician"
-  ];
   
   const clinics = [
     "Apollo Hospital",
@@ -82,7 +128,7 @@ export const getDoctors = (locationData: LocationType, specialty?: string): Doct
     return {
       id,
       name: `Dr. ${String.fromCharCode(65 + (randomValue % 26))}${String.fromCharCode(97 + ((randomValue / 100) % 26))}${String.fromCharCode(97 + ((randomValue / 10000) % 26))}${String.fromCharCode(97 + ((randomValue / 1000000) % 26))}`,
-      specialty: specialties[specialtyIndex],
+      specialty: specialties[specialtyIndex].name,
       clinic: clinics[clinicIndex],
       address: `${locationData.area}, ${locationData.district}`,
       available,
@@ -110,4 +156,33 @@ export const getDoctors = (locationData: LocationType, specialty?: string): Doct
   }
   
   return doctors;
+};
+
+// Function to find doctors by location and specialty
+export const findDoctorsByLocationAndSpecialty = (
+  locationData: LocationType,
+  specialty: string
+): Doctor[] => {
+  return getDoctors(locationData).filter(
+    (doctor) => doctor.specialty === specialty
+  );
+};
+
+// Function to find nearby doctors
+export const findNearbyDoctors = (
+  locationData: LocationType,
+  specialty: string
+): Doctor[] => {
+  // In a real app, this would use geolocation to find truly nearby doctors
+  // For demo purposes, we'll just return doctors with the same specialty from a different area
+  
+  // Create a "nearby" location by slightly modifying the area
+  const nearbyLocation: LocationType = {
+    ...locationData,
+    area: locationData.area === "Bandra" ? "Andheri" : "Bandra",
+  };
+  
+  return getDoctors(nearbyLocation).filter(
+    (doctor) => doctor.specialty === specialty
+  ).slice(0, 3); // Limit to 3 nearby doctors
 };

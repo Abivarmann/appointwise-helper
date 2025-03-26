@@ -8,10 +8,10 @@ import DoctorLocationMap from './DoctorLocationMap';
 interface DoctorCardProps {
   doctor: Doctor;
   locationData: LocationType;
-  index: number;
+  index?: number; // Make index optional
 }
 
-const DoctorCard = ({ doctor, locationData, index }: DoctorCardProps) => {
+const DoctorCard = ({ doctor, locationData, index = 0 }: DoctorCardProps) => {
   const navigate = useNavigate();
 
   const handleBookAppointment = () => {
