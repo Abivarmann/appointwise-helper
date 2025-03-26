@@ -7,10 +7,38 @@ export interface LocationType {
 
 export const getAvailableLocations = () => {
   return {
-    areas: ["Bandra", "Andheri", "Colaba", "Borivali", "Ghatkopar"],
-    districts: ["Mumbai Suburban", "Mumbai City"],
-    states: ["Maharashtra"],
-    countries: ["India"],
+    areas: [
+      // Major areas in different Indian cities
+      "Bandra", "Andheri", "Colaba", "Borivali", "Ghatkopar", // Mumbai
+      "Connaught Place", "Karol Bagh", "Chandni Chowk", "Hauz Khas", "Lajpat Nagar", // Delhi
+      "Indiranagar", "Koramangala", "Whitefield", "Jayanagar", "MG Road", // Bangalore
+      "Park Street", "Salt Lake", "New Town", "Howrah", "Ballygunge", // Kolkata
+      "T Nagar", "Anna Nagar", "Adyar", "Mylapore", "Velachery", // Chennai
+      "Jubilee Hills", "Banjara Hills", "Hitech City", "Gachibowli", "Secunderabad", // Hyderabad
+      "Aundh", "Koregaon Park", "Viman Nagar", "Kothrud", "Shivaji Nagar", // Pune
+      "Navrangpura", "Satellite", "Bodakdev", "Vastrapur", "Paldi" // Ahmedabad
+    ],
+    districts: [
+      // Major districts/cities in India
+      "Mumbai Suburban", "Mumbai City", "Delhi", "Bangalore Urban", 
+      "Kolkata", "Chennai", "Hyderabad", "Pune", "Ahmedabad",
+      "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", 
+      "Thane", "Bhopal", "Visakhapatnam", "Patna", "Vadodara",
+      "Ghaziabad", "Ludhiana", "Agra", "Nashik", "Faridabad"
+    ],
+    states: [
+      // All states and union territories of India
+      "Maharashtra", "Delhi", "Karnataka", "West Bengal", 
+      "Tamil Nadu", "Telangana", "Gujarat", "Rajasthan",
+      "Uttar Pradesh", "Bihar", "Madhya Pradesh", "Andhra Pradesh",
+      "Punjab", "Haryana", "Kerala", "Assam", "Jharkhand",
+      "Chhattisgarh", "Jammu and Kashmir", "Uttarakhand",
+      "Himachal Pradesh", "Goa", "Tripura", "Meghalaya",
+      "Manipur", "Nagaland", "Arunachal Pradesh", "Mizoram",
+      "Sikkim", "Chandigarh", "Puducherry", "Dadra and Nagar Haveli and Daman and Diu",
+      "Andaman and Nicobar Islands", "Lakshadweep", "Ladakh"
+    ],
+    countries: ["India"], // Only India as country option
   };
 };
 
@@ -168,7 +196,6 @@ export const findDoctorsByLocationAndSpecialty = (
   );
 };
 
-// Function to find nearby doctors
 export const findNearbyDoctors = (
   locationData: LocationType,
   specialty: string

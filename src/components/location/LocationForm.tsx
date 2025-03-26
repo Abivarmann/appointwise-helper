@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MapPin, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getAvailableLocations } from '@/data/mockData';
+import { toast } from "sonner";
 
 const LocationForm = () => {
   const navigate = useNavigate();
@@ -13,19 +14,49 @@ const LocationForm = () => {
     area: '',
     district: '',
     state: '',
-    country: ''
+    country: 'India' // Default to India
   });
+  
+  // Filter options based on selections
+  const [filteredStates, setFilteredStates] = useState(states);
+  const [filteredDistricts, setFilteredDistricts] = useState<string[]>([]);
+  const [filteredAreas, setFilteredAreas] = useState<string[]>([]);
   
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
+    
+    // Update form data
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Update filtered options based on selection
+    if (name === 'state') {
+      // For demo purposes, filter districts randomly but consistently based on state
+      const stateHash = value.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const filteredDistrictsList = districts.filter((_, index) => {
+        return (index + stateHash) % 3 === 0 || (index + stateHash) % 7 === 0;
+      });
+      setFilteredDistricts(filteredDistrictsList.length > 0 ? filteredDistrictsList : districts.slice(0, 5));
+      setFilteredAreas([]);
+      setFormData(prev => ({ ...prev, district: '', area: '' }));
+    }
+    
+    if (name === 'district') {
+      // For demo purposes, filter areas randomly but consistently based on district
+      const districtHash = value.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const filteredAreasList = areas.filter((_, index) => {
+        return (index + districtHash) % 4 === 0 || (index + districtHash) % 5 === 0;
+      });
+      setFilteredAreas(filteredAreasList.length > 0 ? filteredAreasList : areas.slice(0, 5));
+      setFormData(prev => ({ ...prev, area: '' }));
+    }
   };
   
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     
     // Check if all fields are filled
-    if (!formData.area || !formData.district || !formData.state || !formData.country) {
+    if (!formData.area || !formData.district || !formData.state) {
+      toast.error("Please select all location fields before searching.");
       return;
     }
     
@@ -74,19 +105,16 @@ const LocationForm = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                required
-                className="input-field"
+                className="input-field bg-gray-100"
+                disabled={true} // Disabled as we're only showing India
               >
-                <option value="">Select Country</option>
-                {countries.map(country => (
-                  <option key={country} value={country}>{country}</option>
-                ))}
+                <option value="India">India</option>
               </select>
             </div>
             
             <div className="space-y-2">
               <label htmlFor="state" className="text-sm font-medium text-foreground">
-                State/Province
+                State/Union Territory
               </label>
               <select
                 id="state"
@@ -95,10 +123,9 @@ const LocationForm = () => {
                 onChange={handleChange}
                 required
                 className="input-field"
-                disabled={!formData.country}
               >
-                <option value="">Select State/Province</option>
-                {states.map(state => (
+                <option value="">Select State/Union Territory</option>
+                {filteredStates.map(state => (
                   <option key={state} value={state}>{state}</option>
                 ))}
               </select>
@@ -118,7 +145,7 @@ const LocationForm = () => {
                 disabled={!formData.state}
               >
                 <option value="">Select District/City</option>
-                {districts.map(district => (
+                {filteredDistricts.map(district => (
                   <option key={district} value={district}>{district}</option>
                 ))}
               </select>
@@ -138,7 +165,7 @@ const LocationForm = () => {
                 disabled={!formData.district}
               >
                 <option value="">Select Area/Neighborhood</option>
-                {areas.map(area => (
+                {filteredAreas.map(area => (
                   <option key={area} value={area}>{area}</option>
                 ))}
               </select>
@@ -154,7 +181,7 @@ const LocationForm = () => {
             <button
               type="submit"
               className="button-primary w-full md:w-auto"
-              disabled={!formData.area || !formData.district || !formData.state || !formData.country}
+              disabled={!formData.area || !formData.district || !formData.state}
             >
               <Search className="w-4 h-4 mr-2" />
               Find Doctors
